@@ -82,7 +82,7 @@ void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char			**ft_new_str_arr(char **str_arr, size_t size);
-char			**ft_free_str_arr(char ***str_arr);
+void			**ft_free_str_arr(char **str_arr);
 size_t			ft_get_words(char const *s, char c);
 size_t			ft_lstlen(t_list *list);
 size_t			ft_lstfind(t_list *list, void const *content);

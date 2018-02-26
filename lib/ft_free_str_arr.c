@@ -12,20 +12,18 @@
 
 #include <stdlib.h>
 
-char	**ft_free_str_arr(char ***str_arr)
+void	*ft_free_str_arr(char **tab)
 {
 	size_t i;
-
 	i = 0;
-	if (str_arr == NULL)
-		return (NULL);
-	while ((*str_arr)[i] != 0)
-		i++;
-	while (i != 0)
+	if (tab == 0)
+		return (tab);
+	while (tab[i])
 	{
-		free((*str_arr)[i - 1]);
-		i--;
+		free(tab[i]);
+		i++;
 	}
-	free(*str_arr);
-	return (NULL);
+	free(tab);
+	tab = 0;
+	return (0);
 }

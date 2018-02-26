@@ -18,14 +18,24 @@ int main(int argc, char **argv)
 	size_t		i;
 	t_flagls	flag;
 	char		**args;
+	char **tmp;
 
 	i = 0;
 	args = NULL;
-	if (validate_flags(argc, argv, &flag, &i) > 0)
+	if (val_flags(argc, argv, &flag, &i) > 0)
 		return (1);
 	if (argc - i > 0)
-		if ((args = sort_args_type(sort_args(argv, argc), &flag)) == NULL)
+	{
+
+		if (!(tmp = sort_args(argv, argc, &flag)))
 			return (0);
+		if ((args = sort_args_type(tmp, &flag)) == NULL)
+		{
+			ft_free_str_arr(tmp);
+			return (0);
+		}
+		ft_free_str_arr(tmp);
+	}
 	i = 0;
 	if (args == NULL)
 		read_dir(".", &flag);
@@ -46,5 +56,6 @@ int main(int argc, char **argv)
 				read_dir(args[i], &flag);
 				i++;
 			}
+	ft_free_str_arr(args);
 	return (0);
 }

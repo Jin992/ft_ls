@@ -14,7 +14,9 @@ NAME = ft_ls
 CC = @gcc
 CFLAGS = -Wall -Wextra -Werror -Ilib/includes
 
-FT_LS = main.c dir_operation.c flags_operations.c list_output.c sort_args_operation.c sort_operations.c
+FT_LS = main.c dir_operation.c flags_operations.c list_output.c sort_args_operation.c sort_operations.c\
+service_funcs.c dir_operations_helpers.c list_write_funcs.c list_get_perm.c list_totalsum.c sort_args_helpers.c\
+dir_doesnt_exist.c dir_operations_service.c list_write_helper.c
 
 OBJ = $(FT_LS:.c=.o)
 

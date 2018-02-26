@@ -12,17 +12,25 @@
 
 #include "ft_ls.h"
 
-static void flags_init(t_flagls *flags, int argc)
+static void		flags_init(t_flagls *flags, int argc)
 {
 	size_t i;
 
 	i = 0;
-	while (i < 12)
+	while (i < 13)
 		flags->flag[i++] = 0;
 	flags->show_path = 0;
 	flags->flag_cnt = 0;
 	flags->argc = argc;
 	flags->expt = 0;
+}
+
+static int		illegal_option(char c)
+{
+	ft_putstr_fd("ls: illegal option -- ", 2);
+	ft_putchar_fd(((unsigned int)c), 2);
+	ft_putstr_fd("\n", 2);
+	return (10);
 }
 
 static int		ls_flags(char *str, t_flagls *flag)
@@ -32,7 +40,7 @@ static int		ls_flags(char *str, t_flagls *flag)
 	size_t	j;
 
 	i = 1;
-	flags = "aRrlt1*fGgdu";
+	flags = "aRrlt1*@fAgdu";
 	while (str[i] != '\0')
 	{
 		j = 0;
@@ -45,24 +53,48 @@ static int		ls_flags(char *str, t_flagls *flag)
 			}
 			j++;
 		}
-		if (flags[j] == '\0')
+		if (str[i] == 'f')
+			flag->flag[0] = 1;
+		if (str[i] == 'A')
 		{
-			ft_putstr_fd("ls: illegal option -- ", 2);
-			ft_putchar_fd(((unsigned int)str[i]), 2);
-			ft_putstr_fd("\n", 2);
-			return (10);
+			if (flag->flag[0] == 1)
+				flag->flag[9] = 0;
+			else
+				flag->flag[0] = 1;
 		}
+		if (str[i] == 'a' && flag->flag[9] == 1)
+			flag->flag[9] = 0;
+		if (str[i] == '1' && flag->flag[3] == 1)
+			flag->flag[3] = 0;
+		else if (str[i] == 'l' && flag->flag[5] == 1)
+			flag->flag[5] = 0;
+		if (flags[j] == '\0')
+			return (illegal_option(str[i]));
 		i++;
 	}
 	flag->flag_cnt++;
 	return (0);
 }
 
-int validate_flags(int argc, char **argv, t_flagls *flag, size_t *i)
+static int		minus_validation(char **argv, size_t *i, t_flagls *flag)
 {
-	/*struct stat obj;*/
-	flags_init(flag, argc);
+	if (argv[*i][0] != '-')
+		return (1);
+	if (argv[*i][0] == '-' && argv[*i][1] == '\0')
+		return (1);
+	if (argv[*i][0] == '-' && argv[*i][1] == '-' && argv[*i][2] == '\0')
+	{
+		flag->flag_cnt++;
+		flag->flag[6] = 1;
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
 
+int				val_flags(int argc, char **argv, t_flagls *flag, size_t *i)
+{
+	flags_init(flag, argc);
 	*i = 1;
 	if (argc < 2)
 		return (0);
@@ -70,20 +102,11 @@ int validate_flags(int argc, char **argv, t_flagls *flag, size_t *i)
 		return (0);
 	while (*i < (size_t)argc)
 	{
-		if (argv[*i][0] != '-')
+		if (minus_validation(argv, i, flag) == 1)
 			return (0);
-		if (argv[*i][0] == '-' && argv[*i][1] == '\0')
-			return (0);
-		if (argv[*i][0] == '-' && argv[*i][1] == '-' && argv[*i][2] == '\0')
-		{
-			flag->flag_cnt++;
-			flag->flag[6] = 1;
-			(*i)++;
-			return (0);
-		}
 		if (ls_flags(argv[*i], flag) > 0)
 		{
-			ft_putstr_fd("usage: ls [-aRltr1] [file ...]\n", 2);
+			ft_putstr_fd("usage: ls [-aRltr1@] [file ...]\n", 2);
 			return (10);
 		}
 		(*i)++;

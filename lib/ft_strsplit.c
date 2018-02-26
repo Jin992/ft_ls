@@ -27,7 +27,7 @@ static char		**ft_array_filler(char **res, char const *s, char c)
 		{
 			*res = ft_strsub(s_tmp, 0, s - s_tmp);
 			if (*res == NULL)
-				return (ft_free_str_arr(&res_start));
+				return ((char **)ft_free_str_arr(res_start));
 			res++;
 		}
 		if (*s == '\0')
