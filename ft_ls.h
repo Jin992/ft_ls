@@ -68,5 +68,5 @@ int				r(t_flagls *flag, char **res, size_t *i_j, struct dirent *obj);
 int				read_bls(DIR *dir_fd, t_flagls *flag, char **res, size_t *i_j);
 void			get_acl(t_margin margin, char *tmp2);
 void			perm_error(char *tmp2);
-
+void			bonus(char *str, size_t i, t_flagls *flag);
 #endif

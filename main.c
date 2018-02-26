@@ -13,12 +13,59 @@
 #include "ft_ls.h"
 #include <fcntl.h>
 
-int main(int argc, char **argv)
+void			bonus(char *str, size_t i, t_flagls *flag)
+{
+	if (str[i] == 'f')
+		flag->flag[0] = 1;
+	if (str[i] == 'A')
+	{
+		if (flag->flag[0] == 1)
+			flag->flag[9] = 0;
+		else
+			flag->flag[0] = 1;
+	}
+	if (str[i] == 'a' && flag->flag[9] == 1)
+		flag->flag[9] = 0;
+	if (str[i] == '1' && flag->flag[3] == 1)
+		flag->flag[3] = 0;
+	else if (str[i] == 'l' && flag->flag[5] == 1)
+		flag->flag[5] = 0;
+}
+
+static int		dir_reader_ls(char **args, t_flagls flag)
+{
+	size_t i;
+
+	i = 0;
+	if (args == NULL)
+	{
+		if (read_dir(".", &flag) == -1)
+			return (-1);
+	}
+	else
+	{
+		if (flag.flag[2] == 1)
+		{
+			while (args[i] != NULL)
+				i++;
+			while (i > 0)
+				if (read_dir(args[--i], &flag) == -1)
+					return (-1);
+		}
+		else
+			while (args[i] != NULL)
+				if (read_dir(args[i++], &flag) == -1)
+					return (-1);
+	}
+	return (0);
+}
+
+int				main(int argc, char **argv)
 {
 	size_t		i;
 	t_flagls	flag;
 	char		**args;
-	char **tmp;
+	char		**tmp;
 
 	i = 0;
 	args = NULL;
@@ -26,7 +73,6 @@ int main(int argc, char **argv)
 		return (1);
 	if (argc - i > 0)
 	{
-
 		if (!(tmp = sort_args(argv, argc, &flag)))
 			return (0);
 		if ((args = sort_args_type(tmp, &flag)) == NULL)
@@ -36,26 +82,8 @@ int main(int argc, char **argv)
 		}
 		ft_free_str_arr(tmp);
 	}
-	i = 0;
-	if (args == NULL)
-		read_dir(".", &flag);
-	else
-		if (flag.flag[2] == 1)
-		{
-			while (args[i] != NULL)
-				i++;
-			while (i > 0)
-			{
-				i--;
-				read_dir(args[i], &flag);
-			}
-		}
-		else
-			while (args[i] != NULL)
-			{
-				read_dir(args[i], &flag);
-				i++;
-			}
+	if (dir_reader_ls(args, flag) == -1)
+		return (1);
 	ft_free_str_arr(args);
 	return (0);
 }

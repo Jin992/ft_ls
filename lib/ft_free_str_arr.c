@@ -15,6 +15,7 @@
 void	*ft_free_str_arr(char **tab)
 {
 	size_t i;
+
 	i = 0;
 	if (tab == 0)
 		return (tab);

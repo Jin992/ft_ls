@@ -53,21 +53,7 @@ static int		ls_flags(char *str, t_flagls *flag)
 			}
 			j++;
 		}
-		if (str[i] == 'f')
-			flag->flag[0] = 1;
-		if (str[i] == 'A')
-		{
-			if (flag->flag[0] == 1)
-				flag->flag[9] = 0;
-			else
-				flag->flag[0] = 1;
-		}
-		if (str[i] == 'a' && flag->flag[9] == 1)
-			flag->flag[9] = 0;
-		if (str[i] == '1' && flag->flag[3] == 1)
-			flag->flag[3] = 0;
-		else if (str[i] == 'l' && flag->flag[5] == 1)
-			flag->flag[5] = 0;
+		bonus(str, i, flag);
 		if (flags[j] == '\0')
 			return (illegal_option(str[i]));
 		i++;
