@@ -130,6 +130,7 @@ char			**sort_args_type(char **args, t_flagls *flag)
 		i++;
 	if (flag->flag[4] == 1 && flag->flag[8] == 0)
 		time_sort_arg(args, i);
+	i = 0;
 	while (args[i] != NULL)
 	{
 		if (args[i][0] == '\0')
@@ -138,7 +139,7 @@ char			**sort_args_type(char **args, t_flagls *flag)
 	}
 	if (!(tmp = ft_new_str_arr(tmp, ((size_t)i - j))))
 		return (NULL);
-	if (clean_array(0, flag, args, tmp) == -1)
+	if (clean_array(flag, args, tmp) == -1)
 		return (NULL);
 	return (tmp);
 }

@@ -17,7 +17,7 @@ static void		flags_init(t_flagls *flags, int argc)
 	size_t i;
 
 	i = 0;
-	while (i < 13)
+	while (i < 10)
 		flags->flag[i++] = 0;
 	flags->show_path = 0;
 	flags->flag_cnt = 0;
@@ -40,7 +40,7 @@ static int		ls_flags(char *str, t_flagls *flag)
 	size_t	j;
 
 	i = 1;
-	flags = "aRrlt1*@fAgdu";
+	flags = "aRrlt1*@fA";
 	while (str[i] != '\0')
 	{
 		j = 0;
@@ -92,7 +92,7 @@ int				val_flags(int argc, char **argv, t_flagls *flag, size_t *i)
 			return (0);
 		if (ls_flags(argv[*i], flag) > 0)
 		{
-			ft_putstr_fd("usage: ls [-aRltr1@] [file ...]\n", 2);
+			ft_putstr_fd("usage: ls [-aRltr1@fA] [file ...]\n", 2);
 			return (10);
 		}
 		(*i)++;

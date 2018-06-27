@@ -36,13 +36,13 @@ static void		folder_file_sort(char **tmp, t_flagls *flag)
 	}
 }
 
-int				clean_array(int i, t_flagls *flag, char **args, char **tmp)
+int				clean_array(t_flagls *flag, char **args, char **tmp)
 {
+	int i;
 	int j;
 
+	i = 0;
 	j = 0;
-	if (args[i][0] == '\0')
-		return (-1);
 	while (args[i] != NULL)
 	{
 		if (args[i][0] != '\0')

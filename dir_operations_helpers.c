@@ -41,7 +41,8 @@ int			dir_reader(char *dir, int *flag_e, t_flagls *flag, size_t *i)
 
 	if ((dir_fd = opendir(dir)) == NULL)
 	{
-		if (flag->show_path == 0 && is_dir(dir))
+		if (flag->show_path == 0 && is_dir(dir)
+			&& flag->argc - flag->flag_cnt > 2)
 			ft_printf("%s:\n", dir);
 		permission_check(dir, flag);
 		*flag_e = 1;
@@ -49,7 +50,7 @@ int			dir_reader(char *dir, int *flag_e, t_flagls *flag, size_t *i)
 	}
 	file_qnt(dir_fd, flag, i);
 	closedir(dir_fd);
-	if (*i == 0 && flag->show_path == 0 && flag->argc == 2)
+	if (*i == 0 && flag->show_path == 0 && flag->argc - flag->flag_cnt == 2)
 		*flag_e = 1;
 	return (0);
 }

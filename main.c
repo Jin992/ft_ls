@@ -15,8 +15,16 @@
 
 void			bonus(char *str, size_t i, t_flagls *flag)
 {
-	if (str[i] == 'f')
+	if (str[i] == 'f' && flag->flag[2] == 1)
+	{
 		flag->flag[0] = 1;
+		flag->flag[2] = 0;
+	}
+	if (str[i] == 'r' && flag->flag[8] == 1)
+	{
+		flag->flag[2] = 0;
+		flag->flag[0] = 1;
+	}
 	if (str[i] == 'A')
 	{
 		if (flag->flag[0] == 1)
@@ -74,16 +82,14 @@ int				main(int argc, char **argv)
 	if (argc - i > 0)
 	{
 		if (!(tmp = sort_args(argv, argc, &flag)))
-			return (0);
+			return (1);
 		if ((args = sort_args_type(tmp, &flag)) == NULL)
-		{
-			ft_free_str_arr(tmp);
-			return (0);
-		}
+			return ((int)ft_free_str_arr(tmp));
 		ft_free_str_arr(tmp);
 	}
 	if (dir_reader_ls(args, flag) == -1)
-		return (1);
-	ft_free_str_arr(args);
+		return ((int)ft_free_str_arr(args));
+	if (args != NULL)
+		ft_free_str_arr(args);
 	return (0);
 }

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <printf.h>
 #include "ft_ls.h"
 
 static void		major_minor_device(struct stat k)
@@ -50,8 +51,9 @@ static void		write_symlink(struct stat obj, char *tmp2)
 	buff = NULL;
 	if (S_ISLNK(obj.st_mode))
 	{
-		buff = (char *)malloc(sizeof(char) * 1600);
-		readlink(tmp2, buff, 1600);
+		buff = (char *)malloc(sizeof(char) * 128);
+		bzero(buff, 128);
+		readlink(tmp2, buff, 128);
 		ft_putstr(" -> ");
 		ft_putstr(buff);
 	}

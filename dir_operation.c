@@ -95,6 +95,8 @@ int				read_dir(char *dir_path, t_flagls *flag)
 	dir = NULL;
 	if (dir_path == NULL)
 		return (0);
+	if (dir_path[0] == '\0')
+		return (0);
 	if (procces_block(dir_path, &dir, flag) == -1)
 		return (0);
 	flag->show_path++;

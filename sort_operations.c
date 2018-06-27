@@ -24,26 +24,23 @@ void	swap_strs(char **arg1, char **arg2)
 void	time_sort(char **arr, int n, char *dir)
 {
 	char			*file;
-	unsigned int	i;
-	unsigned int	j;
+	int				i;
+	int				j;
 	struct stat		obj;
 	struct stat		obj2;
 
 	i = 0;
-	while ((int)i < n - 1)
+	while (i != n - 1)
 	{
-		j = i + 1;
-		while ((int)j < n)
+		j = 0;
+		while (j != n - i - 1)
 		{
-			lstat((file = get_next_dir(&dir, arr[i])), &obj);
+			lstat((file = get_next_dir(&dir, arr[j])), &obj);
 			free(file);
-			lstat((file = get_next_dir(&dir, arr[j])), &obj2);
+			lstat((file = get_next_dir(&dir, arr[j + 1])), &obj2);
 			free(file);
-			if (obj.st_mtimespec.tv_sec - obj2.st_mtimespec.tv_sec < 0)
-				swap_strs(&(arr[i]), &(arr[j]));
-			else if (obj.st_mtimespec.tv_sec == obj2.st_mtimespec.tv_sec)
-				if (obj.st_mtimespec.tv_nsec - obj2.st_mtimespec.tv_nsec < 0)
-					swap_strs(&(arr[i]), &(arr[j]));
+			if (obj.st_mtimespec.tv_sec < obj2.st_mtimespec.tv_sec)
+				swap_strs(&(arr[j]), &(arr[j + 1]));
 			j++;
 		}
 		i++;

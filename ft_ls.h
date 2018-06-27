@@ -25,7 +25,7 @@
 
 typedef struct	s_flagls
 {
-	int flag[13];
+	int flag[10];
 	int show_path;
 	int flag_cnt;
 	int expt;
@@ -63,7 +63,7 @@ void			print_list(char *dir, t_margin margin, char *dir_path);
 char			*get_permissions(struct stat obj, t_margin margin);
 unsigned int	total_sum_ls(char **str, t_margin *margin, char *dir_path);
 int				ls_digit_len(int digit);
-int				clean_array(int i, t_flagls *flag, char **args, char **tmp);
+int				clean_array(t_flagls *flag, char **args, char **tmp);
 int				r(t_flagls *flag, char **res, size_t *i_j, struct dirent *obj);
 int				read_bls(DIR *dir_fd, t_flagls *flag, char **res, size_t *i_j);
 void			get_acl(t_margin margin, char *tmp2);

@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-static void		write_perm(char **args, int i)
+static int		write_perm(char **args, int i)
 {
 	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(args[i], 2);
@@ -20,7 +20,9 @@ static void		write_perm(char **args, int i)
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
 	free(args[i]);
-	args[i] = ft_strnew(0);
+	if ((args[i] = ft_strnew(0)) == NULL)
+		return (-1);
+	return (0);
 }
 
 static int		check_link(char **args, int *i)
@@ -45,6 +47,7 @@ static int		check_link(char **args, int *i)
 				return (-1);
 		}
 	}
+	free(buff);
 	return (0);
 }
 
@@ -61,7 +64,10 @@ int				doesnt_exist(char **args, t_flagls *flags)
 	{
 		dir_res = is_dir(args[i]);
 		if (dir_res == -1)
-			write_perm(args, i);
+		{
+			if (write_perm(args, i) == -1)
+				return (-1);
+		}
 		else if (dir_res == 0 && flags->flag[3] == 0)
 		{
 			if ((res = check_link(args, &i)) == 1)
